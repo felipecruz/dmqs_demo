@@ -1,6 +1,7 @@
 from django.test import TestCase
 from dmqs.integration.testcase import MemoryTestCase
 from dmqs_app.models import Friend, BestFriend, Dog, Friendship
+from django.db.models import Avg, Max, Min, Count
 
 class FastTest(MemoryTestCase):
     fixtures = ['dmqs_app/tests/fixtures/fixture.json']
@@ -23,9 +24,10 @@ class FastTest(MemoryTestCase):
         self.assertTrue(list(friend2.best_friends.all()) == [best2])
 
     def test_friend3(self):
-        friend = Friend.objects.get(id=1)
+        friend2 = Friend.objects.filter(id=7)\
+                                .annotate(number_best_friends=Count('friends'))[0]
 
-        self.assertTrue(friend != None)
+        self.assertTrue(friend2.number_best_friends == 1)
 
     def test_friend4(self):
         friend = Friend.objects.get(id=1)
