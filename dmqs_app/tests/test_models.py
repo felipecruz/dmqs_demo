@@ -1,7 +1,8 @@
-from django.test import TestCase
+#from django.test import TestCase
+from dmqs.integration.testcase import MemoryTestCase
 from dmqs_app.models import Friend, BestFriend, Dog, Friendship
 
-class TestFriend(TestCase):
+class TestFriend(MemoryTestCase):
     fixtures = ['dmqs_app/tests/fixtures/fixture.json']
 
     def test_friend(self):
@@ -10,9 +11,16 @@ class TestFriend(TestCase):
         self.assertTrue(friend != None)
 
     def test_friend2(self):
-        friend = Friend.objects.get(id=1)
+        friend = Friend.objects.get(id=6)
+        friends = friend.friends.all()
+        friend2 = Friend.objects.get(id=7)
+        best_friends = friend2.best_friends.all()
+        best2 = BestFriend.objects.get(id=2)
 
         self.assertTrue(friend != None)
+        self.assertTrue(len(friends) == 1)
+        self.assertTrue(len(best_friends) == 1)
+        self.assertTrue(list(friend2.best_friends.all()) == [best2])
 
     def test_friend3(self):
         friend = Friend.objects.get(id=1)
