@@ -27,16 +27,18 @@ class FastTest(MemoryTestCase):
         self.assertTrue(list(friend2.best_friends.all()) == [best2])
 
     def test_friend4(self):
-        friend2 = Friend.objects.filter(id=7)\
-                                .annotate(number_best_friends=Count('friends'))[0]
+        friend = \
+        Friend.objects.filter(id=7)\
+                      .annotate(number_best_friends=Count('friends'))[0]
 
-        self.assertTrue(friend2.number_best_friends == 1)
+        self.assertTrue(friend.number_best_friends == 1)
 
     def test_friend5(self):
-        friend2 = Friend.objects.filter(id=7)\
-                                .annotate(number_best_friends=Count('best_friends'))[0]
+        friend = \
+        Friend.objects.filter(id=7)\
+                       .annotate(number_best_friends=Count('best_friends'))[0]
 
-        self.assertTrue(friend2.number_best_friends == 1)
+        self.assertTrue(friend.number_best_friends == 1)
 
     def test_friend6(self):
         all_best_friends = BestFriend.objects.all()
