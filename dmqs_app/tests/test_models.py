@@ -14,40 +14,40 @@ class FastTest(MemoryTestCase):
     def test_friend2(self):
         friend = Friend.objects.get(id=6)
         friends = friend.friends.all()
+
+        self.assertTrue(friend != None)
+        self.assertTrue(len(friends) == 1)
+
+    def test_friend3(self):
         friend2 = Friend.objects.get(id=7)
         best_friends = friend2.best_friends.all()
         best2 = BestFriend.objects.get(id=2)
 
-        self.assertTrue(friend != None)
-        self.assertTrue(len(friends) == 1)
         self.assertTrue(len(best_friends) == 1)
         self.assertTrue(list(friend2.best_friends.all()) == [best2])
 
-    def test_friend3(self):
+    def test_friend4(self):
         friend2 = Friend.objects.filter(id=7)\
                                 .annotate(number_best_friends=Count('friends'))[0]
 
         self.assertTrue(friend2.number_best_friends == 1)
 
-    def test_friend4(self):
-        friend = Friend.objects.get(id=1)
-
-        self.assertTrue(friend != None)
-
     def test_friend5(self):
-        friend = Friend.objects.get(id=1)
+        friend2 = Friend.objects.filter(id=7)\
+                                .annotate(number_best_friends=Count('best_friends'))[0]
 
-        self.assertTrue(friend != None)
+        self.assertTrue(friend2.number_best_friends == 1)
 
     def test_friend6(self):
-        friend = Friend.objects.get(id=1)
+        all_best_friends = BestFriend.objects.all()
 
-        self.assertTrue(friend != None)
+        self.assertTrue(len(all_best_friends) == 3)
 
     def test_friend7(self):
-        friend = Friend.objects.get(id=1)
+        friendship = Friendship.objects.get(id=1)
 
-        self.assertTrue(friend != None)
+        self.assertTrue(friendship.best_friend1 != None)
+        self.assertTrue(friendship.best_friend2 != None)
 
     def test_friend8(self):
         friend = Friend.objects.get(id=1)
@@ -576,39 +576,40 @@ class SlowTest(TestCase):
     def test_friend2(self):
         friend = Friend.objects.get(id=6)
         friends = friend.friends.all()
+
+        self.assertTrue(friend != None)
+        self.assertTrue(len(friends) == 1)
+
+    def test_friend3(self):
         friend2 = Friend.objects.get(id=7)
         best_friends = friend2.best_friends.all()
         best2 = BestFriend.objects.get(id=2)
 
-        self.assertTrue(friend != None)
-        self.assertTrue(len(friends) == 1)
         self.assertTrue(len(best_friends) == 1)
         self.assertTrue(list(friend2.best_friends.all()) == [best2])
 
-    def test_friend3(self):
-        friend = Friend.objects.get(id=1)
-
-        self.assertTrue(friend != None)
-
     def test_friend4(self):
-        friend = Friend.objects.get(id=1)
+        friend2 = Friend.objects.filter(id=7)\
+                                .annotate(number_best_friends=Count('friends'))[0]
 
-        self.assertTrue(friend != None)
+        self.assertTrue(friend2.number_best_friends == 1)
 
     def test_friend5(self):
-        friend = Friend.objects.get(id=1)
+        friend2 = Friend.objects.filter(id=7)\
+                                .annotate(number_best_friends=Count('best_friends'))[0]
 
-        self.assertTrue(friend != None)
+        self.assertTrue(friend2.number_best_friends == 1)
 
     def test_friend6(self):
-        friend = Friend.objects.get(id=1)
+        all_best_friends = BestFriend.objects.all()
 
-        self.assertTrue(friend != None)
+        self.assertTrue(len(all_best_friends) == 3)
 
     def test_friend7(self):
-        friend = Friend.objects.get(id=1)
+        friendship = Friendship.objects.get(id=1)
 
-        self.assertTrue(friend != None)
+        self.assertTrue(friendship.best_friend1 != None)
+        self.assertTrue(friendship.best_friend2 != None)
 
     def test_friend8(self):
         friend = Friend.objects.get(id=1)
